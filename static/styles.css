@@ -1,0 +1,52 @@
+body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.place {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin: auto;
+
+  legend {
+    font-weight: bold;
+    font-size: 1.2em;
+    background-color: white;
+  }
+
+  label {
+    padding: 1em 2em;
+    margin: auto;
+  }
+
+  .positive {
+    background-color: green;
+  }
+  &:has(.positive input:checked) {
+    background-color: green;
+  }
+
+  .neutral {
+    background-color: grey;
+  }
+  &:has(.neutral input:checked) {
+    background-color: gray;
+  }
+
+  .negative {
+    background-color: red;
+  }
+  &:has(.negative input:checked) {
+    background-color: red;
+  }
+
+  label:has(input:checked) {
+    outline: 2px solid black;
+  }
+
+  input[type="radio"] {
+    visibility: hidden;
+    display: none;
+  }
+}
