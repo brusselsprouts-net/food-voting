@@ -1,4 +1,4 @@
-import restaurants from "../../static/restaurants.json" with { type: "json" };
+import restaurants from "../static/restaurants.json" with { type: "json" };
 
 export const RESTAURANT_ENTRIES = Object.entries(restaurants) as [
     unknown,
@@ -13,13 +13,7 @@ export type RestaurantsKey = keyof Restaurants;
 export type RestaurantsVote = {
     [x in RestaurantsKey]: "positive" | "negative" | "neutral";
 };
-export type RestaurantsVoteSummary = {
-    [x in RestaurantsKey]: number;
-};
 
-export const RestaurantsVoteSummaryDefault = RESTAURANT_KEYS.reduce<
-    RestaurantsVoteSummary
->(
-    (previous, current) => ({ ...previous, [current]: 0 }),
-    {} as RestaurantsVoteSummary,
-);
+export function getRestaurantName(id: RestaurantsKey) {
+    return restaurants[id];
+}

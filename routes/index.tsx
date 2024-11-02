@@ -1,7 +1,5 @@
-import { useSignal } from "@preact/signals";
 import Place from "../components/Place.tsx";
-import { Handlers, PageProps } from "$fresh/server.ts";
-import { RESTAURANT_ENTRIES } from "./api/restaurants.ts";
+import { RESTAURANT_ENTRIES } from "../lib/restaurants.ts";
 
 export default function Home() {
   return (
@@ -18,6 +16,7 @@ export default function Home() {
       <form action="/api/votes" method="post" class="suggestion_form">
         <input type="reset" />
         <input type="submit" />
+        <input type="text" name="user_id" placeholder={"User ID"} />
         <div>
           {RESTAURANT_ENTRIES.map(([id, place_name]) => (
             <Place name={place_name} id={id} key={id}></Place>

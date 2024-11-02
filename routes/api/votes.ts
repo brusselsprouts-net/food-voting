@@ -10,23 +10,28 @@ export const handler: Handlers<null> = {
     const kv = await Deno.openKv();
 
     const form_data = await req.formData();
-    const entries = Object.fromEntries(form_data.entries());
+    const user_id = form_data.get("user_id");
+    if (user_id instanceof File) {
+      console.error("given a file as a user_id");
+      return new Response("user_id must not be a file", { status: 400 });
+    }
 
-    // const now = Temporal.Now.plainDateISO();
+    const entries = Object.fromEntries(
+      form_data.entries().filter(([name, _]) => name.startsWith("placename_"))
+        .map(([name, value]) => [name.substring("placename_".length), value]),
+    );
+
+    const now = Temporal.Now.plainDateISO();
 
     await kv.set(
-      // ["votes", now.yearOfWeek ?? now.year, now.weekOfYear!, "user_id"], // TODO: do we store historical data like this?
-      ["votes", "user_id"],
+      ["votes", now.yearOfWeek ?? now.year, now.weekOfYear!, "user_id"], // TODO: do we store historical data like this?
+      // ["votes", user_id],
       entries,
     );
 
-    return Response.json(entries);
+    const url = new URL(req.url);
+    url.pathname = "/";
+
+    return Response.redirect(url);
   },
 };
-
-function hasOwnTyped<O extends object, const T extends string>(
-  object: O,
-  key: T,
-): object is O & { [x in T]: unknown } {
-  return Object.hasOwn(object, key);
-}
