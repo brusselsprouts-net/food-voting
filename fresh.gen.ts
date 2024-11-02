@@ -5,6 +5,7 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_votes from "./routes/api/votes.ts";
+import * as $api_wipe from "./routes/api/wipe.ts";
 import * as $index from "./routes/index.tsx";
 import * as $stats from "./routes/stats.tsx";
 
@@ -15,6 +16,7 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/api/votes.ts": $api_votes,
+    "./routes/api/wipe.ts": $api_wipe,
     "./routes/index.tsx": $index,
     "./routes/stats.tsx": $stats,
   },

@@ -1,58 +1,62 @@
-import { calculate_stats } from "../lib/stats.ts";
+import { calculate_stats, score } from "../lib/stats.ts";
+import { current_week } from "../lib/week.ts";
 
 export default async function Stats() {
-    const stats = await calculate_stats();
+  const week = current_week();
 
-    let min = 0;
-    let max = 0;
+  const { summary, votes } = await calculate_stats(week);
 
-    for (const [_, [detract, promote]] of stats.entries()) {
-        min = Math.min(min, detract);
-        max = Math.max(max, promote);
-    }
+  const sorted = summary.entries().toArray().sort(
+    ([_a, a], [_b, b]) => {
+      return score(b) - score(a);
+    },
+  );
 
-    const sorted = stats.entries().toArray().sort(([_a, [a_detract, a_promote]], [_b, [b_detract, b_promote]]) => {
-        return (b_detract + b_promote) - (a_detract + a_promote);
-    });
+  return (
+    <>
+      <h1>Week {week.number}, {week.year}</h1>
+      {sorted.map(([key, { negative, positive }]) => (
+        <div style={{ display: "flex" }}>
+          <span style={{ margin: "auto", marginInlineEnd: 0 }}>{key}</span>
+          <span
+            style={{
+              width: "50em",
+              height: "1em",
+              // background: "#80808080",
+              position: "relative",
+              display: "inline-block",
+            }}
+          >
+            <span
+              style={{
+                position: "absolute",
+                height: "100%",
+                right: "50%",
+                width: `${50 * negative.length / votes}%`,
+                backgroundColor: "red",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              {negative.map((x) => <span>{x}</span>)}
+            </span>
 
-    return (
-        <>
-            {sorted.map(([key, [detract, promote]]) => (
-                <div style={{ display: "flex" }}>
-                    <span style={{ margin: "auto" }}>{key}</span>
-                    <span
-                        style={{
-                            width: "50em",
-                            height: "1em",
-                            // background: "",
-                            position: "relative",
-                            display: "inline-block",
-                        }}
-                    >
-                        <span
-                            style={{
-                                position: "absolute",
-                                height: "100%",
-                                left: "50%",
-                                width: `${50 * Math.max(promote, 0) / max}%`,
-                                backgroundColor: "green",
-                            }}
-                        />
-
-                        <span
-                            style={{
-                                position: "absolute",
-                                height: "100%",
-                                right: "50%",
-                                width: `${
-                                    50 * Math.abs(Math.min(detract, 0)) / max
-                                }%`,
-                                backgroundColor: "red",
-                            }}
-                        />
-                    </span>
-                </div>
-            ))}
-        </>
-    );
+            <span
+              style={{
+                position: "absolute",
+                height: "100%",
+                left: "50%",
+                width: `${50 * positive.length / votes}%`,
+                backgroundColor: "green",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              {positive.map((x) => <span>{x}</span>)}
+            </span>
+          </span>
+        </div>
+      ))}
+    </>
+  );
 }

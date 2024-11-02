@@ -1,5 +1,5 @@
 export default function Place({ name, id }: { name: string; id: string }) {
-  const form_name = `placename_${id}`;
+  const form_name = `preference_${id}`;
 
   return (
     <fieldset class="place">
