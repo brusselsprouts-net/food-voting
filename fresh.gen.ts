@@ -4,7 +4,9 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_vote from "./routes/api/vote.ts";
+import * as $api_restaurants from "./routes/api/restaurants.ts";
+import * as $api_stats from "./routes/api/stats.ts";
+import * as $api_votes from "./routes/api/votes.ts";
 import * as $index from "./routes/index.tsx";
 
 import type { Manifest } from "$fresh/server.ts";
@@ -13,7 +15,9 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/vote.ts": $api_vote,
+    "./routes/api/restaurants.ts": $api_restaurants,
+    "./routes/api/stats.ts": $api_stats,
+    "./routes/api/votes.ts": $api_votes,
     "./routes/index.tsx": $index,
   },
   islands: {},
