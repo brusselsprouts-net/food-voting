@@ -1,6 +1,6 @@
-import { getRestaurantName } from "../lib/restaurants.ts";
-import { calculate_stats, score } from "../lib/stats.ts";
-import { current_week } from "../lib/week.ts";
+import { getRestaurantName } from "$lib/restaurants.ts";
+import { calculate_stats, score } from "$lib/stats.ts";
+import { current_week } from "$lib/week.ts";
 
 export default async function Stats() {
   const week = current_week();

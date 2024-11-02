@@ -1,4 +1,5 @@
 POST http://localhost:8000/api/wipe
+X-Auth-Bypass: yesindeediambypassingallauthtoperformaverydangerousoperation
 ```
 with tp```
 HTTP 200
@@ -6,6 +7,7 @@ HTTP 200
 
 # Andy Data
 POST http://localhost:8000/api/votes
+X-Auth-Bypass: yesindeediambypassingallauthtoperformaverydangerousoperation
 [FormParams]
 user_id: andy
 preference_hizmet: negative
@@ -43,6 +45,7 @@ HTTP 302
 
 # Bianca Data
 POST http://localhost:8000/api/votes
+X-Auth-Bypass: yesindeediambypassingallauthtoperformaverydangerousoperation
 [FormParams]
 user_id: bianca
 preference_mc-donalds: negative
@@ -79,6 +82,7 @@ HTTP 302
 
 # Zach Data
 POST http://localhost:8000/api/votes
+X-Auth-Bypass: yesindeediambypassingallauthtoperformaverydangerousoperation
 [FormParams]
 user_id: zach
 preference_mc-donalds: negative

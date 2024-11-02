@@ -1,5 +1,5 @@
-import Place from "../components/Place.tsx";
-import { RESTAURANT_ENTRIES } from "../lib/restaurants.ts";
+import Place from "$components/Place.tsx";
+import { RESTAURANT_ENTRIES } from "$lib/restaurants.ts";
 
 export default function Home() {
   return (

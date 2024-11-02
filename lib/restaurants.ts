@@ -1,4 +1,4 @@
-import restaurants from "../static/restaurants.json" with { type: "json" };
+import restaurants from "./restaurants.json" with { type: "json" };
 
 export const RESTAURANT_ENTRIES = Object.entries(restaurants) as [
     unknown,

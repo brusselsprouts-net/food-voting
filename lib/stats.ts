@@ -1,10 +1,9 @@
-import { openKv } from "./kv.ts";
-import { entriesTyped } from "./object.ts";
-import { RestaurantsKey, RestaurantsVote } from "./restaurants.ts";
-import { Week } from "./week.ts";
+import { entriesTyped } from "$lib/object.ts";
+import { RestaurantsKey, RestaurantsVote } from "$lib/restaurants.ts";
+import { Week } from "$lib/week.ts";
 
 export async function calculate_stats(week: Week) {
-    const kv = await openKv();
+    const kv = await Deno.openKv();
 
     const votes = kv.list<RestaurantsVote>({
         prefix: ["votes", week.year, week.number],

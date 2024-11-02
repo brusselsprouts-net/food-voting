@@ -1,15 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
-import { openKv } from "../../lib/kv.ts";
-import { current_week } from "../../lib/week.ts";
+import { current_week } from "$lib/week.ts";
 
 export const handler: Handlers<null> = {
   async GET(req, ctx) {
-    const kv = await openKv();
+    const kv = await Deno.openKv();
 
     return Response.json(await Array.fromAsync(kv.list({ prefix: ["votes"] })));
   },
   async POST(req, ctx) {
-    const kv = await openKv();
+    const kv = await Deno.openKv();
 
     const form_data = await req.formData();
     const user_id = form_data.get("user_id");
