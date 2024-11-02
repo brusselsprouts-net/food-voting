@@ -18,5 +18,24 @@ export const handler: Handlers<string[]> = {
 };
 
 export default function Home(props: PageProps<string[]>) {
-  return props.data.map((place) => <Place name={place}></Place>);
+  return (
+    <>
+      <form>
+        <input
+          type="text"
+          name="suggestion"
+          id="suggestion"
+          placeholder={"Ribs Factory"}
+          style={{ width: "100%" }}
+        />
+      </form>
+      <form action="/api/vote" method="post" class="suggestion_form">
+        <input type="reset" />
+        <input type="submit" />
+        <div>
+          {props.data.map((place) => <Place name={place} key={place}></Place>)}
+        </div>
+      </form>
+    </>
+  );
 }

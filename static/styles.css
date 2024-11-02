@@ -1,28 +1,37 @@
+:root {
+  color-scheme: dark light;
+}
+
 body {
-  display: flex;
+  max-width: 150ch;
+  margin: auto;
+}
+
+.suggestion_form div {
+  /* display: flex; */
   flex-wrap: wrap;
 }
 
 .place {
   display: flex;
-  justify-items: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: space-between;
   margin: auto;
 
   legend {
     font-weight: bold;
     font-size: 1.2em;
-    background-color: white;
   }
 
   label {
-    padding: 1em 2em;
+    padding: 0.5em 1em;
     margin: auto;
   }
 
   .positive {
     background-color: green;
   }
+
   &:has(.positive input:checked) {
     background-color: green;
   }
@@ -30,6 +39,7 @@ body {
   .neutral {
     background-color: grey;
   }
+
   &:has(.neutral input:checked) {
     background-color: gray;
   }
@@ -37,6 +47,7 @@ body {
   .negative {
     background-color: red;
   }
+
   &:has(.negative input:checked) {
     background-color: red;
   }
