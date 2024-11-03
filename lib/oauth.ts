@@ -1,7 +1,7 @@
-import { createGoogleOAuthConfig } from "deno_kv_oauth/mod.ts";
+import { createGoogleOAuthConfig, getRequiredEnv } from "deno_kv_oauth/mod.ts";
 
 export const OAUTH_CONFIG = createGoogleOAuthConfig({
-  redirectUri: "http://localhost:8000/oauth/callback",
+  redirectUri: getRequiredEnv("ORIGIN") + "/oauth/callback",
   scope: [
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",
