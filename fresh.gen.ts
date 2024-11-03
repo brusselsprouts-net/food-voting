@@ -4,7 +4,6 @@
 
 import * as $_authenticated_middleware from "./routes/(authenticated)/_middleware.ts";
 import * as $_authenticated_api_votes from "./routes/(authenticated)/api/votes.ts";
-import * as $_authenticated_api_wipe from "./routes/(authenticated)/api/wipe.ts";
 import * as $_authenticated_index from "./routes/(authenticated)/index.tsx";
 import * as $_authenticated_stats from "./routes/(authenticated)/stats.tsx";
 import * as $_404 from "./routes/_404.tsx";
@@ -19,7 +18,6 @@ const manifest = {
   routes: {
     "./routes/(authenticated)/_middleware.ts": $_authenticated_middleware,
     "./routes/(authenticated)/api/votes.ts": $_authenticated_api_votes,
-    "./routes/(authenticated)/api/wipe.ts": $_authenticated_api_wipe,
     "./routes/(authenticated)/index.tsx": $_authenticated_index,
     "./routes/(authenticated)/stats.tsx": $_authenticated_stats,
     "./routes/_404.tsx": $_404,

@@ -18,7 +18,9 @@ export default async function Stats() {
       <h1>Week {week.number}, {week.year}</h1>
       {sorted.map(([key, { negative, positive }]) => (
         <div style={{ display: "flex" }}>
-          <span style={{ margin: "auto", marginInlineEnd: 0 }}>{getRestaurantName(key)}</span>
+          <span style={{ margin: "auto", marginInlineEnd: 0 }}>
+            {getRestaurantName(key)}
+          </span>
           <span
             style={{
               width: "50em",
@@ -39,7 +41,7 @@ export default async function Stats() {
                 justifyContent: "space-around",
               }}
             >
-              {negative.map((x) => <span>{x}</span>)}
+              {negative.map((x) => <span>{x.name}</span>)}
             </span>
 
             <span
@@ -53,7 +55,7 @@ export default async function Stats() {
                 justifyContent: "space-around",
               }}
             >
-              {positive.map((x) => <span>{x}</span>)}
+              {positive.map((x) => <span>{x.name}</span>)}
             </span>
           </span>
         </div>

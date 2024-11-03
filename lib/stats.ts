@@ -1,41 +1,52 @@
 import { entriesTyped } from "$lib/object.ts";
 import { RestaurantsKey, RestaurantsVote } from "$lib/restaurants.ts";
 import { Week } from "$lib/week.ts";
+import { UserInfo } from "$lib/oauth.ts";
 
 export async function calculate_stats(week: Week) {
-    const kv = await Deno.openKv();
+  const kv = await Deno.openKv();
 
-    const votes = kv.list<RestaurantsVote>({
-        prefix: ["votes", week.year, week.number],
-    });
+  const votes = kv.list<RestaurantsVote>({
+    prefix: ["votes", week.year, week.number],
+  });
 
-    const summary = new Map<
-        RestaurantsKey,
-        { negative: string[]; positive: string[] }
-    >();
+  const users = await Array.fromAsync(kv.list<UserInfo>({
+    prefix: ["user-info"],
+  }));
 
-    let vote_count = 0;
-    for await (const vote of votes) {
-        vote_count += 1;
+  const summary = new Map<
+    RestaurantsKey,
+    { negative: UserInfo[]; positive: UserInfo[] }
+  >();
 
-        for (const [restaurant, rank] of entriesTyped(vote.value)) {
-            const { negative, positive } = summary.get(restaurant) ??
-                { negative: [], positive: [] };
+  let vote_count = 0;
+  for await (const vote of votes) {
+    vote_count += 1;
 
-            if (rank === "positive") positive.push(vote.key.at(-1)!.toString());
-            else if (rank === "negative") {
-                negative.push(vote.key.at(-1)!.toString());
-            }
+    const user_id = vote.key.at(-1)!.toString();
+    const user = users.find(({ value }) => {
+      return value.sub === user_id;
+    })!.value;
 
-            summary.set(restaurant, { negative, positive });
-        }
+    for (const [restaurant, rank] of entriesTyped(vote.value)) {
+      const { negative, positive } = summary.get(restaurant) ??
+        { negative: [], positive: [] };
+
+      if (rank === "positive") {
+        positive.push(user);
+      } else if (rank === "negative") {
+        negative.push(user);
+      }
+
+      summary.set(restaurant, { negative, positive });
     }
+  }
 
-    return { summary, votes: vote_count };
+  return { summary, votes: vote_count };
 }
 
 export function score(
-    summary: { negative: string[]; positive: string[] },
+  summary: { negative: UserInfo[]; positive: UserInfo[] },
 ): number {
-    return summary.positive.length - summary.negative.length;
+  return summary.positive.length - summary.negative.length;
 }

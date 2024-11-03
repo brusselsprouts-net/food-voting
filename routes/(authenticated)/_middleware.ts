@@ -1,22 +1,11 @@
 import { FreshContext } from "$fresh/server.ts";
-import {
-  createGoogleOAuthConfig,
-  getSessionId,
-  signIn,
-} from "deno_kv_oauth/mod.ts";
+import { getSessionId } from "deno_kv_oauth/mod.ts";
+import { UserInfo } from "$lib/oauth.ts";
 
-interface State {
-  data: string;
+export interface State {
+  session_id: string;
+  user_info: UserInfo;
 }
-
-const oauth = createGoogleOAuthConfig({
-  redirectUri: "http://localhost:8000/auth",
-  scope: [
-    "openid",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-  ],
-});
 
 export async function handler(
   req: Request,
@@ -26,20 +15,16 @@ export async function handler(
     return await ctx.next();
   }
 
-  // FIXME: remove before deploy
-  if (
-    req.headers.get("X-Auth-Bypass") ===
-      "yesindeediambypassingallauthtoperformaverydangerousoperation"
-  ) {
-    // Ensure LOCALHOST
-    if (ctx.remoteAddr.hostname === "127.0.0.1") {
-      return await ctx.next();
-    }
-  }
+  const session_id = await getSessionId(req);
 
-  const session = await getSessionId(req);
+  if (session_id != undefined) {
+    const kv = await Deno.openKv();
+    const user_info = await kv.get<UserInfo>(["user-session", session_id]);
 
-  if (session != undefined) {
+    ctx.state = {
+      session_id,
+      user_info: user_info.value!,
+    };
     return await ctx.next();
   }
 
