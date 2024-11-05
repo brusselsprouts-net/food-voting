@@ -2,7 +2,6 @@ import { Week } from "$lib/week.ts";
 import { all_users, all_votes } from "$lib/kv.ts";
 import { RestaurantsKeyType } from "$lib/restaurants.ts";
 
-
 export async function calculate_stats(week: Week) {
   const kv = await Deno.openKv();
 

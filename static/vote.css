@@ -5,8 +5,9 @@
 
 .place {
   display: flex;
-  justify-content: flex-end;
-  align-items: space-between;
+  position: relative;
+  justify-content: baseline;
+  align-items: center;
   margin: auto;
 
   legend {

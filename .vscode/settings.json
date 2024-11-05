@@ -17,5 +17,14 @@
   "editor.tabSize": 2,
   "[yaml]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   }
 }

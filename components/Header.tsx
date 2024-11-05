@@ -1,7 +1,7 @@
-import { UserInfo } from "$lib/oauth.ts";
+import { UserInfoType } from "$lib/oauth.ts";
 
 interface Props {
-  user_info: UserInfo;
+  user_info: UserInfoType;
 }
 
 export default function Header({ user_info }: Props) {
