@@ -1,40 +1,24 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getSessionId } from "deno_kv_oauth/mod.ts";
-import { UserInfo } from "$lib/oauth.ts";
-
-export interface State {
-  session_id: string;
-  user_info: UserInfo;
-}
+import { Authentication } from "$lib/oauth.ts";
 
 export async function handler(
   req: Request,
-  ctx: FreshContext<State>,
+  ctx: FreshContext<Authentication | undefined>,
 ) {
-  if (ctx.destination !== "route") {
-    return await ctx.next();
+  if (ctx.state === undefined) {
+    const request_url = new URL(req.url);
+
+    const url = new URL("/", request_url);
+    url.searchParams.append("return_to", request_url.pathname);
+
+    return new Response(null, {
+      headers: {
+        location: url.toString(),
+      },
+      status: 302,
+      statusText: "Found",
+    });
   }
 
-  const session_id = await getSessionId(req);
-
-  if (session_id != undefined) {
-    const kv = await Deno.openKv();
-    const user_info = await kv.get<UserInfo>(["user-session", session_id]);
-
-    ctx.state = {
-      session_id,
-      user_info: user_info.value!,
-    };
-    return await ctx.next();
-  }
-
-  const redirect = encodeURIComponent(new URL(req.url).pathname);
-
-  return new Response(
-    `Unauthorized, please <a href="/oauth/signin/?success_url=${redirect}">sign in</a>`,
-    {
-      status: 401,
-      headers: { "content-type": "text/html" },
-    },
-  );
+  return await ctx.next();
 }

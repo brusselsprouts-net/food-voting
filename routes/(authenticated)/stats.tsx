@@ -1,8 +1,11 @@
 import { getRestaurantName } from "$lib/restaurants.ts";
 import { calculate_stats, score } from "$lib/stats.ts";
 import { current_week } from "$lib/week.ts";
+import Header from "$components/Header.tsx";
+import { defineRoute } from "$fresh/src/server/defines.ts";
+import { Authentication } from "$lib/oauth.ts";
 
-export default async function Stats() {
+export default defineRoute<Authentication>(async (_req, ctx) => {
   const week = current_week();
 
   const { summary, votes } = await calculate_stats(week);
@@ -15,6 +18,7 @@ export default async function Stats() {
 
   return (
     <>
+      <Header user_info={ctx.state.user_info} />
       <h1>Week {week.number}, {week.year}</h1>
       {sorted.map(([key, { negative, positive }]) => (
         <div style={{ display: "flex" }}>
@@ -62,4 +66,4 @@ export default async function Stats() {
       ))}
     </>
   );
-}
+});

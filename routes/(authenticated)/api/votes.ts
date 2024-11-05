@@ -1,8 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
 import { current_week } from "$lib/week.ts";
-import { State } from "../_middleware.ts";
+import { Authentication } from "$lib/oauth.ts";
 
-export const handler: Handlers<null, State> = {
+export const handler: Handlers<null, Authentication> = {
   async GET() {
     const kv = await Deno.openKv();
 
@@ -22,7 +22,7 @@ export const handler: Handlers<null, State> = {
     );
 
     const url = new URL(req.url);
-    url.pathname = "/";
+    url.pathname = "/stats";
 
     return Response.redirect(url); // TODO: put this api route on the stats page and save form values for the client
   },

@@ -1,10 +1,11 @@
 import Place from "$components/Place.tsx";
 import { RESTAURANT_ENTRIES, RestaurantsVote } from "$lib/restaurants.ts";
 import { defineRoute } from "$fresh/server.ts";
-import { State } from "./_middleware.ts";
 import { current_week, next_thursday } from "$lib/week.ts";
+import { Authentication } from "$lib/oauth.ts";
+import Header from "$components/Header.tsx";
 
-export default defineRoute<State>(async (_req, ctx) => {
+export default defineRoute<Authentication>(async (_req, ctx) => {
   const kv = await Deno.openKv();
 
   const week = current_week();
@@ -17,6 +18,7 @@ export default defineRoute<State>(async (_req, ctx) => {
 
   return (
     <>
+      <Header user_info={ctx.state.user_info} />
       <h1>Welcome {ctx.state.user_info.name}</h1>
       <p>
         Make your vote {new Intl.RelativeTimeFormat("en-GB").format(
