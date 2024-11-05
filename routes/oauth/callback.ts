@@ -1,12 +1,12 @@
 import { Handlers } from "$fresh/server.ts";
 import { handleCallback } from "deno_kv_oauth/mod.ts";
-import { OAUTH_CONFIG, UserInfo } from "$lib/oauth.ts";
+import { createOauthConfig, UserInfo } from "$lib/oauth.ts";
 
 export const handler: Handlers = {
   async GET(req) {
     const { response, sessionId, tokens } = await handleCallback(
       req,
-      OAUTH_CONFIG,
+      createOauthConfig(),
     );
 
     const openid_response = await fetch(

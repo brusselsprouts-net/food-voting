@@ -1,13 +1,15 @@
 import { createGoogleOAuthConfig, getRequiredEnv } from "deno_kv_oauth/mod.ts";
 
-export const OAUTH_CONFIG = createGoogleOAuthConfig({
-  redirectUri: getRequiredEnv("ORIGIN") + "/oauth/callback",
-  scope: [
-    "openid",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-  ],
-});
+export function createOauthConfig() {
+  return createGoogleOAuthConfig({
+    redirectUri: getRequiredEnv("ORIGIN") + "/oauth/callback",
+    scope: [
+      "openid",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+    ],
+  });
+}
 
 export interface UserInfo {
   /** User ID */
