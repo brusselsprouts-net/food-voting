@@ -1,6 +1,7 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getSessionId } from "deno_kv_oauth/mod.ts";
-import { Authentication, UserInfo } from "$lib/oauth.ts";
+import { Authentication } from "$lib/oauth.ts";
+import { user_session } from "$lib/kv.ts";
 
 export async function handler(
   req: Request,
@@ -12,17 +13,21 @@ export async function handler(
 
   const session_id = await getSessionId(req);
 
-  if (session_id != undefined) {
-    const kv = await Deno.openKv();
-    const user_info = await kv.get<UserInfo>(["user-session", session_id]);
-
-    ctx.state = {
-      session_id,
-      user_info: user_info.value!,
-    };
+  if (session_id === undefined) {
+    ctx.state = undefined;
     return await ctx.next();
   }
 
-  ctx.state = undefined;
+  const user_info = await user_session(session_id);
+
+  if (user_info === undefined) {
+    ctx.state = undefined;
+    return await ctx.next();
+  }
+
+  ctx.state = {
+    session_id,
+    user_info: user_info,
+  };
   return await ctx.next();
 }

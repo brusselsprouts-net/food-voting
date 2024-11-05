@@ -20,6 +20,7 @@ export default function Header({ user_info }: Props) {
       </nav>
       <div class="user">
         <img
+          referrerpolicy="no-referrer"
           src={user_info.picture}
           alt={`Profile picture of ${user_info.name}`}
         />

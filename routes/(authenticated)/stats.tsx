@@ -1,11 +1,12 @@
-import { getRestaurantName } from "$lib/restaurants.ts";
-import { calculate_stats, score, weeks_exist } from "$lib/stats.ts";
+import { getRestaurantName, RestaurantsVote } from "$lib/restaurants.ts";
+import { calculate_stats, score } from "$lib/stats.ts";
 import Header from "$components/Header.tsx";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { Authentication } from "$lib/oauth.ts";
 import { Head } from "$fresh/runtime.ts";
 import { Week } from "$lib/week.ts";
 import { Handlers, RouteConfig } from "$fresh/server.ts";
+import { set_vote, weeks_exist } from "$lib/kv.ts";
 
 export const config: RouteConfig = {
   routeOverride: "/stats{/:year}?{/wk:week}?",
@@ -28,8 +29,6 @@ export const handler: Handlers<null, Authentication> = {
     return ctx.render();
   },
   async POST(req, ctx) {
-    const kv = await Deno.openKv();
-
     if (
       req.headers.get("content-type") !== "application/x-www-form-urlencoded"
     ) {
@@ -37,14 +36,17 @@ export const handler: Handlers<null, Authentication> = {
     }
 
     const form_data = await req.formData();
-    const entries = Object.fromEntries(form_data.entries());
+    const entries = RestaurantsVote.safeParse(new Map(form_data.entries()));
+
+    if (!entries.success) {
+      return new Response(entries.error.toString(), {
+        status: 400,
+      });
+    }
 
     const week = Week.current();
 
-    await kv.set(
-      ["votes", week.year, week.number, ctx.state.user_info.sub], // TODO: do we store historical data like this?
-      entries,
-    );
+    set_vote(week, ctx.state.user_info, entries.data);
 
     return Response.redirect(req.url, 302);
   },
@@ -61,7 +63,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
     );
   })();
 
-  const { summary, votes, users } = await calculate_stats(week);
+  const { summary, votes, voted_users } = await calculate_stats(week);
 
   const sorted = summary.entries().toArray().sort(
     ([_a, a], [_b, b]) => {
@@ -108,7 +110,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       </div>
 
       <p>{votes} total vote(s) are in!</p>
-      <ul>{users.map((x) => <li>{x.name}</li>)}</ul>
+      <ul>{voted_users.map((x) => <li>{x.name}</li>)}</ul>
       <ol class="chart">
         {sorted.map(([key, { negative, positive }]) => (
           <li>

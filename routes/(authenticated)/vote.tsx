@@ -1,18 +1,15 @@
 import Place from "$components/Place.tsx";
-import { RESTAURANT_ENTRIES, RestaurantsVote } from "$lib/restaurants.ts";
+import { RESTAURANT_ENTRIES } from "$lib/restaurants.ts";
 import { defineRoute } from "$fresh/server.ts";
 import { Week } from "$lib/week.ts";
 import { Authentication } from "$lib/oauth.ts";
 import Header from "$components/Header.tsx";
 import { Head } from "$fresh/runtime.ts";
+import { get_vote } from "$lib/kv.ts";
 
 export default defineRoute<Authentication>(async (_req, ctx) => {
-  const kv = await Deno.openKv();
-
   const week = Week.current();
-  const previous_vote = (await kv.get<RestaurantsVote>(
-    ["votes", week.year, week.number, ctx.state.user_info.sub],
-  )).value;
+  const previous_vote = await get_vote(week, ctx.state.user_info);
 
   return (
     <>
@@ -50,7 +47,9 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
               name={place_name}
               id={id}
               key={id}
-              previous={previous_vote === null ? undefined : previous_vote[id]}
+              previous={previous_vote === undefined
+                ? undefined
+                : previous_vote.get(id)}
             >
             </Place>
           ))}

@@ -1,4 +1,5 @@
 import { createGoogleOAuthConfig, getRequiredEnv } from "deno_kv_oauth/mod.ts";
+import { z } from "zod";
 
 export function createOauthConfig() {
   return createGoogleOAuthConfig({
@@ -14,17 +15,20 @@ export function createOauthConfig() {
 
 export interface Authentication {
   session_id: string;
-  user_info: UserInfo;
+  user_info: UserInfoType;
 }
 
-export interface UserInfo {
+export type UserInfoType = z.infer<typeof UserInfo>;
+export const UserInfo = z.object({
   /** User ID */
-  sub: string;
-  name: string;
-  given_name: string;
-  family_name: string;
+  sub: z.string(),
+  name: z.string(),
+  given_name: z.string(),
+  family_name: z.string(),
+
   /** URL to the user's profile photo */
-  picture: string;
-  email: string;
-  email_verified: boolean;
-}
+  picture: z.string().url(),
+
+  email: z.string().email(),
+  email_verified: z.boolean(),
+});

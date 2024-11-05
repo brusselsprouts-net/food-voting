@@ -1,10 +1,16 @@
 import { Handlers } from "$fresh/server.ts";
 import { handleCallback } from "deno_kv_oauth/mod.ts";
 import { createOauthConfig, UserInfo } from "$lib/oauth.ts";
+import { create_user_session } from "$lib/kv.ts";
+import { z } from "zod";
+
+const OpenIdConfiguration = z.object({
+  userinfo_endpoint: z.string().url(),
+});
 
 export const handler: Handlers = {
   async GET(req) {
-    const { response, sessionId, tokens } = await handleCallback(
+    const { response, sessionId: session_id, tokens } = await handleCallback(
       req,
       createOauthConfig(),
     );
@@ -19,30 +25,25 @@ export const handler: Handlers = {
       );
       return new Response("500 Internal Server Error", { status: 500 });
     }
-    const openid_configuration = await openid_response.json();
+    const openid_configuration = OpenIdConfiguration.parse(
+      await openid_response.json(),
+    );
 
     const userinfo_response = await fetch(
-      openid_configuration["userinfo_endpoint"],
+      openid_configuration.userinfo_endpoint,
       {
         headers: {
           authorization: `${tokens.tokenType} ${tokens.accessToken}`,
         },
       },
     );
-
     if (!userinfo_response.ok) {
       console.error("unable to fetch user's info", userinfo_response);
       return new Response("500 Internal Server Error", { status: 500 });
     }
-    const userinfo = await userinfo_response.json() as UserInfo;
+    const user_info = UserInfo.parse(await userinfo_response.json());
 
-    const kv = await Deno.openKv();
-    kv.set(["user-session", sessionId], userinfo, {
-      expireIn: 7776000 * 1000, // 90 days
-    });
-    kv.set(["user-info", userinfo.sub], userinfo, {
-      expireIn: 7776000 * 1000, // 90 days
-    });
+    create_user_session(session_id, user_info);
 
     return response;
   },
