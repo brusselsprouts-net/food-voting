@@ -23,11 +23,10 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Check step
+        run: "deno task check"
+
       - name: Build step
-        env:
-          ORIGIN: ${{ vars.ORIGIN }}
-          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: "deno task build"
 
       - name: Upload to Deno Deploy

@@ -1,11 +1,11 @@
-import { Vote } from "$lib/restaurants.ts";
+import { VoteType } from "$lib/restaurants.ts";
 
 export default function Place(
-  { name, id, previous }: { name: string; id: string; previous?: Vote },
+  { name, id, previous }: { name: string; id: string; previous?: VoteType },
 ) {
   return (
-    <fieldset class="place">
-      <legend>{name}</legend>
+    <div class="place">
+      <div class="name">{name}</div>
       <label class="positive">
         Positive
         <input
@@ -33,6 +33,6 @@ export default function Place(
           checked={previous === "negative"}
         />
       </label>
-    </fieldset>
+    </div>
   );
 }

@@ -3,20 +3,32 @@
   flex-wrap: wrap;
 }
 
-.place {
-  display: flex;
-  justify-content: flex-end;
-  align-items: space-between;
-  margin: auto;
+.entries {
+  display: grid;
+  grid-template-columns: minmax(50ch, 1fr) repeat(3, minmax(15ch, 20ch));
+  gap: 1em;
+}
 
-  legend {
+.place {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  position: relative;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1em;
+  padding-block: 1em;
+
+  .name {
     font-weight: bold;
     font-size: 1.2em;
   }
 
   label {
     padding: 0.5em 1em;
-    margin: auto;
+    display: block;
+    /* margin: auto; */
+    text-align: center;
   }
 
   .positive {
@@ -44,7 +56,8 @@
   }
 
   label:has(input:checked) {
-    outline: 2px solid black;
+    border: 0.4em solid black;
+    font-weight: bold;
   }
 
   input[type="radio"] {

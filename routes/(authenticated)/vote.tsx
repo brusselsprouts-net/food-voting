@@ -41,7 +41,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       <form action="/stats" method="post" class="suggestion_form">
         <input type="reset" />
         <input type="submit" />
-        <div>
+        <div class="entries">
           {RESTAURANT_ENTRIES.map(([id, place_name]) => (
             <Place
               name={place_name}
