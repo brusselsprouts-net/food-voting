@@ -1,5 +1,5 @@
 import { getRestaurantName } from "$lib/restaurants.ts";
-import { calculate_stats, score } from "$lib/stats.ts";
+import { calculate_stats, score, weeks_exist } from "$lib/stats.ts";
 import Header from "$components/Header.tsx";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { Authentication } from "$lib/oauth.ts";
@@ -71,9 +71,10 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
 
   const formatter = new Intl.DateTimeFormat("en-GB", { dateStyle: "full" });
 
-  // TODO: filter by and check if these are in the kv store
   const previous = week.previous();
   const next = week.next();
+
+  const [previous_exists, next_exists] = await weeks_exist([previous, next]);
 
   return (
     <>
@@ -85,7 +86,10 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       <div class="weeks">
         <a
           class="previous"
-          href={`/stats/${previous.year}/wk${previous.number}`}
+          href={previous_exists
+            ? `/stats/${previous.year}/wk${previous.number}`
+            : undefined}
+          aria-disabled={!previous_exists}
         >
           {formatter.format(previous.date)}
         </a>
@@ -95,9 +99,9 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
         </span>
         <a
           class="next"
-          href={next.further_than_next_week()
-            ? undefined
-            : `/stats/${next.year}/wk${next.number}`}
+          href={next_exists
+            ? `/stats/${next.year}/wk${next.number}`
+            : undefined}
         >
           {formatter.format(next.date)}
         </a>

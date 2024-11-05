@@ -3,6 +3,24 @@ import { RestaurantsKey, RestaurantsVote } from "$lib/restaurants.ts";
 import { Week } from "$lib/week.ts";
 import { UserInfo } from "$lib/oauth.ts";
 
+export async function weeks_exist(weeks: Week[]): Promise<boolean[]> {
+  const kv = await Deno.openKv();
+
+  return await Promise.all(
+    weeks.map(async (week) => {
+      const entry = await kv.list(
+        { prefix: ["votes", week.year, week.number] },
+        {
+          limit: 1,
+        },
+      )
+        .next();
+
+      return entry.value !== undefined;
+    }),
+  );
+}
+
 export async function calculate_stats(week: Week) {
   const kv = await Deno.openKv();
 

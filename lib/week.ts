@@ -46,8 +46,4 @@ export class Week {
   previous(): Week {
     return new Week(this.#thursday.subtract({ weeks: 1 }));
   }
-
-  further_than_next_week(): boolean {
-    return  Temporal.Now.plainDateISO().until(this.#thursday).days > 6;
-  }
 }
