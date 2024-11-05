@@ -1,29 +1,32 @@
 import Place from "$components/Place.tsx";
 import { RESTAURANT_ENTRIES, RestaurantsVote } from "$lib/restaurants.ts";
 import { defineRoute } from "$fresh/server.ts";
-import { State } from "./_middleware.ts";
-import { current_week, next_thursday } from "$lib/week.ts";
+import { Week } from "$lib/week.ts";
+import { Authentication } from "$lib/oauth.ts";
+import Header from "$components/Header.tsx";
+import { Head } from "$fresh/runtime.ts";
 
-export default defineRoute<State>(async (_req, ctx) => {
+export default defineRoute<Authentication>(async (_req, ctx) => {
   const kv = await Deno.openKv();
 
-  const week = current_week();
+  const week = Week.current();
   const previous_vote = (await kv.get<RestaurantsVote>(
     ["votes", week.year, week.number, ctx.state.user_info.sub],
   )).value;
 
-  const today = Temporal.Now.plainDateISO();
-  const thursday = next_thursday(today);
-
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="/vote.css" />
+      </Head>
+      <Header user_info={ctx.state.user_info} />
       <h1>Welcome {ctx.state.user_info.name}</h1>
       <p>
         Make your vote {new Intl.RelativeTimeFormat("en-GB").format(
-          today.until(thursday).days,
+          week.until.days,
           "days",
         )} for {new Intl.DateTimeFormat("en-GB", { dateStyle: "full" }).format(
-          thursday,
+          week.date,
         )}
       </p>
       {
@@ -38,7 +41,7 @@ export default defineRoute<State>(async (_req, ctx) => {
         />
       </form> */
       }
-      <form action="/api/votes" method="post" class="suggestion_form">
+      <form action="/stats" method="post" class="suggestion_form">
         <input type="reset" />
         <input type="submit" />
         <div>

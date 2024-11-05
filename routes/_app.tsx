@@ -7,7 +7,7 @@ export default function App({ Component }: PageProps) {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Brusselsprouts Food Votes</title>
-        <link rel="stylesheet" href="/styles.css" />
+        <link rel="stylesheet" href="/global.css" />
       </head>
       <body>
         <Component />

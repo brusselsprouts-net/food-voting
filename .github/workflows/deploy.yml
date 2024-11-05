@@ -36,5 +36,3 @@ jobs:
           project: "brusselsprouts-food-voting"
           entrypoint: "main.ts"
           root: "."
-
-
