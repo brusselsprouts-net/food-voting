@@ -33,10 +33,11 @@ export async function get_vote(week: Week, user: UserInfoType, kv?: Deno.Kv) {
 
   if (!votes_parsed.success) {
     console.warn(
-      "Encountered bad data from KV",
+      "Encountered bad data from KV, pruning",
       entry.key,
-      votes_parsed.error.toString(),
+      votes_parsed.error.format(),
     );
+    await kv.delete(entry.key);
     return undefined;
   }
 
@@ -61,16 +62,17 @@ export async function* all_votes(week: Week, kv?: Deno.Kv) {
 
     if (!next_parsed.success) {
       console.warn(
-        "Encountered bad data from KV",
+        "Encountered bad data from KV, pruning",
         entry.key,
-        next_parsed.error.toString(),
+        next_parsed.error.format(),
       );
+      await kv.delete(entry.key);
       continue;
     }
 
-    const user_id = entry.key.at(-1)!.toString();
+    const [_votes, _year, _week, user_id] = entry.key;
 
-    yield { user_id: user_id, vote: next_parsed.data };
+    yield { user_id: user_id.toString(), vote: next_parsed.data };
   }
 }
 
@@ -92,10 +94,11 @@ export async function* all_users(kv?: Deno.Kv) {
 
     if (!next_parsed.success) {
       console.warn(
-        "Encountered bad data from KV",
+        "Encountered bad data from KV, pruning",
         entry.key,
-        next_parsed.error.toString(),
+        next_parsed.error.format(),
       );
+      await kv.delete(entry.key);
       continue;
     }
 
@@ -118,10 +121,11 @@ export async function user_session(session_id: string, kv?: Deno.Kv) {
 
   if (!parsed.success) {
     console.warn(
-      "Encountered bad data from KV",
+      "Encountered bad data from KV, pruning",
       entry.key,
-      parsed.error.toString(),
+      parsed.error.format(),
     );
+    await kv.delete(entry.key);
     return undefined;
   }
 

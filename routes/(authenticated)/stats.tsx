@@ -63,7 +63,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
     );
   })();
 
-  const { summary, votes, users } = await calculate_stats(week);
+  const { summary, votes, voted_users } = await calculate_stats(week);
 
   const sorted = summary.entries().toArray().sort(
     ([_a, a], [_b, b]) => {
@@ -110,7 +110,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       </div>
 
       <p>{votes} total vote(s) are in!</p>
-      <ul>{users.map((x) => <li>{x.name}</li>)}</ul>
+      <ul>{voted_users.map((x) => <li>{x.name}</li>)}</ul>
       <ol class="chart">
         {sorted.map(([key, { negative, positive }]) => (
           <li>

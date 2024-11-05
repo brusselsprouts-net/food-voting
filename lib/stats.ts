@@ -38,7 +38,7 @@ export async function calculate_stats(week: Week) {
     }
   }
 
-  return { summary, votes: vote_count, users };
+  return { summary, votes: vote_count, voted_users };
 }
 
 export function score(
