@@ -1,54 +1,30 @@
-import { entriesTyped } from "$lib/object.ts";
-import { RestaurantsKey, RestaurantsVote } from "$lib/restaurants.ts";
 import { Week } from "$lib/week.ts";
-import { UserInfo } from "$lib/oauth.ts";
+import { all_users, all_votes } from "$lib/kv.ts";
+import { RestaurantsKeyType } from "$lib/restaurants.ts";
 
-export async function weeks_exist(weeks: Week[]): Promise<boolean[]> {
-  const kv = await Deno.openKv();
-
-  return await Promise.all(
-    weeks.map(async (week) => {
-      const entry = await kv.list(
-        { prefix: ["votes", week.year, week.number] },
-        {
-          limit: 1,
-        },
-      )
-        .next();
-
-      return entry.value !== undefined;
-    }),
-  );
-}
 
 export async function calculate_stats(week: Week) {
   const kv = await Deno.openKv();
 
-  const votes = kv.list<RestaurantsVote>({
-    prefix: ["votes", week.year, week.number],
-  });
-
-  const all_users = await Array.fromAsync(kv.list<UserInfo>({
-    prefix: ["user-info"],
-  }));
+  const votes = all_votes(week, kv);
+  const users = await Array.fromAsync(all_users(kv));
 
   const summary = new Map<
-    RestaurantsKey,
+    RestaurantsKeyType,
     { negative: number; positive: number }
   >();
 
-  const users = [];
+  const voted_users = [];
   let vote_count = 0;
-  for await (const vote of votes) {
+  for await (const { user_id, vote } of votes) {
     vote_count += 1;
 
-    const user_id = vote.key.at(-1)!.toString();
-    const user = all_users.find(({ value }) => {
-      return value.sub === user_id;
-    })!.value;
-    users.push(user);
+    const user = users.find(({ sub }) => {
+      return sub === user_id;
+    })!;
+    voted_users.push(user);
 
-    for (const [restaurant, rank] of entriesTyped(vote.value)) {
+    for (const [restaurant, rank] of vote.entries()) {
       let { negative, positive } = summary.get(restaurant) ??
         { negative: 0, positive: 0 };
 
