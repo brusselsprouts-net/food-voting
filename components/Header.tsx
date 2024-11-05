@@ -6,27 +6,30 @@ interface Props {
 
 export default function Header({ user_info }: Props) {
   return (
-    <>
+    <header>
       <nav>
         <li>
-          <a href="/stats">Stats</a>
+          <a href="/">Home</a>
         </li>
         <li>
           <a href="/vote">Vote</a>
         </li>
+        <li>
+          <a href="/stats">Stats</a>
+        </li>
       </nav>
-      <p>
-        Hello {user_info.name}
+      <div class="user">
         <img
           src={user_info.picture}
           alt={`Profile picture of ${user_info.name}`}
         />
-      </p>
+        <div>Hello {user_info.name}</div>
+      </div>
       <nav>
         <li>
           <a href="/oauth/signout">Sign Out</a>
         </li>
       </nav>
-    </>
+    </header>
   );
 }

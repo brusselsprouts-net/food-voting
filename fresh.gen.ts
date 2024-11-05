@@ -3,7 +3,6 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $_authenticated_middleware from "./routes/(authenticated)/_middleware.ts";
-import * as $_authenticated_api_votes from "./routes/(authenticated)/api/votes.ts";
 import * as $_authenticated_stats from "./routes/(authenticated)/stats.tsx";
 import * as $_authenticated_vote from "./routes/(authenticated)/vote.tsx";
 import * as $_404 from "./routes/_404.tsx";
@@ -19,7 +18,6 @@ import type { Manifest } from "$fresh/server.ts";
 const manifest = {
   routes: {
     "./routes/(authenticated)/_middleware.ts": $_authenticated_middleware,
-    "./routes/(authenticated)/api/votes.ts": $_authenticated_api_votes,
     "./routes/(authenticated)/stats.tsx": $_authenticated_stats,
     "./routes/(authenticated)/vote.tsx": $_authenticated_vote,
     "./routes/_404.tsx": $_404,

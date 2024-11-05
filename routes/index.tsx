@@ -1,5 +1,6 @@
 import { defineRoute } from "$fresh/server.ts";
 import { Authentication } from "$lib/oauth.ts";
+import Header from "$components/Header.tsx";
 
 export default defineRoute<Authentication | undefined>((req, ctx) => {
   const request_url = new URL(req.url);
@@ -19,26 +20,12 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
 
   return (
     <>
+      {ctx.state !== undefined && <Header user_info={ctx.state.user_info} />}
       <h1>Welcome</h1>
       <nav>
         {signed_in || (
           <li>
             <a href={sign_in_route.toString()}>Sign In</a>
-          </li>
-        )}
-        {signed_in && (
-          <li>
-            <a href={sign_out_route.toString()}>Sign Out</a>
-          </li>
-        )}
-        {signed_in && (
-          <li>
-            <a href="/stats">Stats</a>
-          </li>
-        )}
-        {signed_in && (
-          <li>
-            <a href="/vote">Vote</a>
           </li>
         )}
       </nav>

@@ -1,0 +1,37 @@
+:root {
+  color-scheme: dark light;
+}
+
+body {
+  max-width: 150ch;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  nav {
+    display: flex;
+    flex-direction: row;
+
+    li {
+      list-style-type: none;
+
+      margin-inline: 1em;
+    }
+  }
+
+  .user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    height: 4em
+  }
+
+  border-bottom: 1px solid grey;
+}

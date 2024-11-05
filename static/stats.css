@@ -1,0 +1,58 @@
+.weeks {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+
+  .current {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .week {
+      font-size: 2em;
+    }
+  }
+}
+
+.chart {
+  li {
+    display: flex;
+  }
+
+  .restaurant_name {
+    margin: auto;
+    margin-inline-end: 1em;
+  }
+
+  .bars {
+    width: 50em;
+    height: 1em;
+
+    position: relative;
+    display: inline-block;
+
+    span {
+      position: absolute;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+
+      width: calc(50% * var(--count) / var(--total-votes));
+    }
+
+    .positive {
+      left: 50%;
+
+      background-color: green;
+    }
+
+    .negative {
+      right: 50%;
+
+      background-color: red;
+    }
+  }
+}

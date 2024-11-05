@@ -1,12 +1,3 @@
-:root {
-  color-scheme: dark light;
-}
-
-body {
-  max-width: 150ch;
-  margin: auto;
-}
-
 .suggestion_form div {
   /* display: flex; */
   flex-wrap: wrap;
