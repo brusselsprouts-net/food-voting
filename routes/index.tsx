@@ -19,7 +19,7 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
 
   // TODO: separate components for the logged in and not logged in page
 
-  const random_button = Math.round(Math.random()*6+1);
+  const random_button = Math.round(Math.random() * 6 + 1);
 
   return (
     <>
@@ -43,7 +43,10 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
           <div>voting system</div>
         </div>
         {signed_in || (
-          <a href={sign_in_route.toString()} class={`sign-in-button shape shape-${random_button}`}>
+          <a
+            href={sign_in_route.toString()}
+            class={`sign-in-button shape shape-${random_button}`}
+          >
             Sign In
           </a>
         )}

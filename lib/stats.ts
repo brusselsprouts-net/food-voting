@@ -15,7 +15,7 @@ export async function calculate_stats(week: Week) {
 
   const voted_users = [];
   let vote_count = 0;
-  let min = 0
+  let min = 0;
   let max = 0;
   for await (const { user_id, vote } of votes) {
     vote_count += 1;

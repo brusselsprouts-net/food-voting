@@ -18,7 +18,8 @@
 
 .chart {
   display: grid;
-  grid-template-columns: auto var(--negative-fr, 1fr) 1pt var(--positive-fr, 1fr);
+  grid-template-columns:
+    auto var(--negative-fr, 1fr) 1pt var(--positive-fr, 1fr);
 
   li {
     display: grid;

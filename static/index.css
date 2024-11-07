@@ -13,37 +13,49 @@
 /* pacifico-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Pacifico';
+  font-family: "Pacifico";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/pacifico-v22-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("/fonts/pacifico-v22-latin-regular.woff2")
+    format(
+      "woff2"
+    ); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 /* love-ya-like-a-sister-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Love Ya Like A Sister';
+  font-family: "Love Ya Like A Sister";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/love-ya-like-a-sister-v22-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("/fonts/love-ya-like-a-sister-v22-latin-regular.woff2")
+    format(
+      "woff2"
+    ); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 /* kranky-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Kranky';
+  font-family: "Kranky";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/kranky-v28-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("/fonts/kranky-v28-latin-regular.woff2")
+    format(
+      "woff2"
+    ); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 /* mystery-quest-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Mystery Quest';
+  font-family: "Mystery Quest";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/mystery-quest-v20-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("/fonts/mystery-quest-v20-latin-regular.woff2")
+    format(
+      "woff2"
+    ); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 .welcome {

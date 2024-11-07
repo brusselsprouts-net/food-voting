@@ -32,7 +32,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       </form> */
       }
       <form action="/stats" method="post" class="suggestion_form">
-        <MakeYourVote week={week}/>
+        <MakeYourVote week={week} />
 
         <input type="reset" />
         <input type="submit" />
