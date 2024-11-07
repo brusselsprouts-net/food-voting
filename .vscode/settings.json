@@ -3,7 +3,7 @@
   "deno.lint": true,
   "editor.defaultFormatter": "denoland.vscode-deno",
   "[typescriptreact]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
@@ -19,7 +19,7 @@
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[css]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "[json]": {
     "editor.defaultFormatter": "denoland.vscode-deno"

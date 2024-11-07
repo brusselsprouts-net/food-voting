@@ -1,6 +1,7 @@
 import { defineRoute } from "$fresh/server.ts";
 import { Authentication } from "$lib/oauth.ts";
 import Header from "$components/Header.tsx";
+import { Head } from "$fresh/runtime.ts";
 
 export default defineRoute<Authentication | undefined>((req, ctx) => {
   const request_url = new URL(req.url);
@@ -20,18 +21,33 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
 
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="index.css" />
+      </Head>
       {ctx.state !== undefined && <Header user_info={ctx.state.user_info} />}
       <div class="welcome_container">
-      <h1><span>W</span><span>E</span><span>L</span><span>C</span><span>O</span><span>M</span><span>E</span></h1>
-      <h1>to the Brussel Sprouts <br>weekly dinner <br>voting system</br></br></h1>
-      </div>
-      <nav>
+        <h1>
+          <span>W</span>
+          <span>E</span>
+          <span>L</span>
+          <span>C</span>
+          <span>O</span>
+          <span>M</span>
+          <span>E</span>
+        </h1>
+        <h1>
+          to the Brussel Sprouts
+          <br />
+          weekly dinner
+          <br />
+          voting system
+        </h1>
         {signed_in || (
-          <li>
-            <a href={sign_in_route.toString()} class="sign-in-button">Sign In</a>
-          </li>
+          <a href={sign_in_route.toString()} class="sign-in-button">
+            Sign In
+          </a>
         )}
-      </nav>
+      </div>
     </>
   );
 });

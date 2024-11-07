@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.cdnfonts.com/css/proclamate");
+@import url("https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kranky&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap");
+
+h1 span {
+  margin: 0 auto;
+  margin-left: 0.3em;
+  display: inline-block;
+  position: relative;
+}
+h1 span:before {
+  content: "";
+  position: absolute;
+  top: -0.2em;
+  left: -0.2em;
+  width: 100%;
+  height: 100%;
+  padding: 0.2em;
+  z-index: -1;
+}
+h1 span:nth-child(1) {
+  font-family: "DynaPuff", sans-serif;
+  color: #ffc863;
+}
+h1 span:nth-child(1)::before {
+  background: #332929;
+  clip-path: polygon(15% 5%, 85% 10%, 95% 85%, 10% 95%);
+}
+h1 span:nth-child(2) {
+  font-style: italic;
+  font-family: "Playfair Display", serif;
+  color: #023020;
+  text-shadow: 0.02em 0.02em 0 #a52a2a, 0.03em 0.03em 0 #a52a2a;
+}
+h1 span:nth-child(2)::before {
+  background: #f5deb3;
+}
+h1 span:nth-child(3) {
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: #ffeef2;
+}
+h1 span:nth-child(3)::before {
+  background: #ac2142;
+  clip-path: polygon(20% 0%, 99% 0, 100% 100%, 0% 100%);
+}
+h1 span:nth-child(4) {
+  font-family: "Love Ya Like A Sister", cursive;
+  color: #22232e;
+}
+h1 span:nth-child(4)::before {
+  background-image: radial-gradient(
+    rgba(0, 194, 203, 0.7) 3px,
+    transparent 3px
+  );
+  background-color: #e0ffff;
+  background-size: 10px 10px;
+  clip-path: polygon(20% 0%, 99% 0, 100% 100%, 0% 100%);
+}
+h1 span:nth-child(5) {
+  font-family: "Poppins", serif;
+  color: #00c2cb;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 0.07em rgb(255, 116, 195);
+}
+h1 span:nth-child(5)::before {
+  background: rgb(249, 255, 195);
+  clip-path: polygon(0 24%, 100% 20%, 100% 86%, 0 82%);
+}
+
+h1 span:nth-child(6) {
+  font-family: "Kranky", serif;
+  color: #073b4c;
+}
+h1 span:nth-child(6)::before {
+  background: #8effe1;
+  clip-path: polygon(5% 15%, 95% 5%, 90% 90%, 10% 95%);
+}
+h1 span:nth-child(7) {
+  font-family: "Mystery Quest", serif;
+  color: #fff644;
+}
+h1 span:nth-child(7)::before {
+  background-image: radial-gradient(rgba(171, 192, 255) 1px, transparent 3px);
+  background-color: #486dbd;
+  background-size: 10px 10px;
+  clip-path: polygon(10% 10%, 90% 5%, 95% 90%, 5% 85%);
+}
+
+
+.welcome_container {
+  text-align: center;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.sprouts {
+  color: #ef476f;
+}
+
+.sign-in-button {
+  font-size: 1em;
+  color: #ffc863;
+  background: #332929;
+  clip-path: polygon(15% 5%, 85% 10%, 95% 85%, 10% 95%);
+  padding: 1em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Media queries to make it nice and responsive for mobile devices */
+@media (max-width: 768px) {
+  .welcome_container {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 360px) {
+  .welcome_container {
+    font-size: 1.3em;
+  }
+}
