@@ -1,3 +1,12 @@
+/* dynapuff-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'DynaPuff';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/dynapuff-v4-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -5,6 +14,9 @@ body {
   margin: auto;
   font-family: "DynaPuff";
   color: #22232e;
+
+  display: flex;
+  flex-direction: column;
 }
 
 :root {
@@ -64,11 +76,22 @@ nav a:hover {
 }
 
 /* Media queries to make it nice and responsive for mobile devices */
-@media (max-width: 768px) {
-  body {
-    font-size: 1em;
+@media (max-width: 900px) {
+  header {
+    font-size: 1.2em;
   }
 
+  nav {
+    padding: 0.5em;
+  }
+
+  nav a {
+    padding: 1em;
+  }
+}
+
+/* Media queries to make it nice and responsive for mobile devices */
+@media (max-width: 700px) {
   header {
     flex-direction: column;
     font-size: 1em;
@@ -77,10 +100,5 @@ nav a:hover {
 
   nav {
     align-items: center;
-    padding: 0.5em;
-  }
-
-  nav a {
-    padding: 1em;
   }
 }

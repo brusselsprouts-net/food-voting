@@ -111,25 +111,23 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
 
       <p>{votes} total vote(s) are in!</p>
       <ul>{voted_users.map((x) => <li>{x.name}</li>)}</ul>
-      <ol class="chart">
+      <ol class="chart" style={{ "--total-votes": votes }}>
         {sorted.map(([key, { negative, positive }]) => (
           <li>
             <span class="restaurant_name">
               {getRestaurantName(key)}
             </span>
-            <span class="bars" style={{ "--total-votes": votes }}>
-              <span
-                class="negative"
-                style={{ "--count": negative }}
-              >
-                {negative}
-              </span>
-              <span
-                class="positive"
-                style={{ "--count": positive }}
-              >
-                {positive}
-              </span>
+            <span
+              class="negative"
+              style={{ "--count": negative }}
+            >
+              {negative}
+            </span>
+            <span
+              class="positive"
+              style={{ "--count": positive }}
+            >
+              {positive}
             </span>
           </li>
         ))}

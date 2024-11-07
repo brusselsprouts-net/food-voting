@@ -19,6 +19,8 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
 
   // TODO: separate components for the logged in and not logged in page
 
+  const random_button = Math.round(Math.random()*6+1);
+
   return (
     <>
       <Head>
@@ -26,24 +28,22 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
       </Head>
       {ctx.state !== undefined && <Header user_info={ctx.state.user_info} />}
       <div class="welcome_container">
-        <h1>
-          <span>W</span>
-          <span>E</span>
-          <span>L</span>
-          <span>C</span>
-          <span>O</span>
-          <span>M</span>
-          <span>E</span>
-        </h1>
-        <h1>
-          to the Brussel Sprouts
-          <br />
-          weekly dinner
-          <br />
-          voting system
-        </h1>
+        <div class="welcome">
+          <span class="shape shape-1">W</span>
+          <span class="shape shape-2">E</span>
+          <span class="shape shape-3">L</span>
+          <span class="shape shape-4">C</span>
+          <span class="shape shape-5">O</span>
+          <span class="shape shape-6">M</span>
+          <span class="shape shape-7">E</span>
+        </div>
+        <div class="subtitle">
+          <div>to the Brussel Sprouts</div>
+          <div>weekly dinner</div>
+          <div>voting system</div>
+        </div>
         {signed_in || (
-          <a href={sign_in_route.toString()} class="sign-in-button">
+          <a href={sign_in_route.toString()} class={`sign-in-button shape shape-${random_button}`}>
             Sign In
           </a>
         )}
