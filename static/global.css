@@ -34,7 +34,6 @@ h1 span:before {
 }
 h1 span:nth-child(1) {
   font-family: "DynaPuff", sans-serif;
-  text-transform: lowercase;
   color: #ffc863;
 }
 h1 span:nth-child(1)::before {
@@ -168,6 +167,7 @@ nav a:hover {
   margin-bottom: 1em; /* Space between image and text */
 }
 
+/* Media queries to make it nice and responsive for mobile devices */
 @media (max-width: 768px) {
   body {
     font-size: 1rem;
@@ -216,4 +216,11 @@ nav a:hover {
   .welcome_container {
     font-size: 1.3rem;
   }
+}
+
+.sign-in-button {
+  font-size: 2rem;
+  color: #ffc863;
+  background: #332929;
+  clip-path: polygon(15% 5%, 85% 10%, 95% 85%, 10% 95%);
 }

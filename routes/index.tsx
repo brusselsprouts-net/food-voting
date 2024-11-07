@@ -28,7 +28,7 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
       <nav>
         {signed_in || (
           <li>
-            <a href={sign_in_route.toString()}>Sign In</a>
+            <a href={sign_in_route.toString()} class="sign-in-button">Sign In</a>
           </li>
         )}
       </nav>
