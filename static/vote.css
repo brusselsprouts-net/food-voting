@@ -3,6 +3,17 @@
   flex-wrap: wrap;
 }
 
+.suggestion_form {
+  background-color: rgb(255, 255, 255);
+  max-width: fit-content;
+  margin: auto;
+  margin-top: 3em;
+  padding: 2em;
+  box-shadow:
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
 .entries {
   display: grid;
   grid-template-columns: minmax(50ch, 1fr) repeat(3, minmax(15ch, 20ch));
@@ -22,41 +33,62 @@
   .name {
     font-weight: bold;
     font-size: 1.2em;
+    margin: auto;
   }
 
   label {
     padding: 0.5em 1em;
+    padding-right: 0.5em;
     display: block;
     /* margin: auto; */
     text-align: center;
+    max-width: max-content;
+    padding: 1em;
   }
 
   .positive {
-    background-color: green;
+    background-color: var(--positive-color);
   }
 
   &:has(.positive input:checked) {
-    background-color: green;
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 10%,
+      #00c295 100%
+    );
   }
 
   .neutral {
-    background-color: grey;
+    background-color: var(--neutral-color);
   }
 
   &:has(.neutral input:checked) {
-    background-color: gray;
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 10%,
+      var(--neutral-color) 100%
+    );
   }
 
   .negative {
-    background-color: red;
+    background-color: var(--negative-color);
   }
 
   &:has(.negative input:checked) {
-    background-color: red;
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 10%,
+      var(--negative-color) 100%
+    );
   }
 
   label:has(input:checked) {
-    border: 0.4em solid black;
+    box-shadow:
+      rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
     font-weight: bold;
   }
 

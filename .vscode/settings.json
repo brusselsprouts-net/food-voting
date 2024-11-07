@@ -19,7 +19,7 @@
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[css]": {
-    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[json]": {
     "editor.defaultFormatter": "denoland.vscode-deno"

@@ -6,6 +6,7 @@ import { Authentication } from "$lib/oauth.ts";
 import Header from "$components/Header.tsx";
 import { Head } from "$fresh/runtime.ts";
 import { get_vote } from "$lib/kv.ts";
+import MakeYourVote from "$components/MakeYourVote.tsx";
 
 export default defineRoute<Authentication>(async (_req, ctx) => {
   const week = Week.current();
@@ -17,15 +18,7 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
         <link rel="stylesheet" href="/vote.css" />
       </Head>
       <Header user_info={ctx.state.user_info} />
-      <h1>Welcome {ctx.state.user_info.name}</h1>
-      <p>
-        Make your vote {new Intl.RelativeTimeFormat("en-GB").format(
-          week.until.days,
-          "days",
-        )} for {new Intl.DateTimeFormat("en-GB", { dateStyle: "full" }).format(
-          week.date,
-        )}
-      </p>
+
       {
         /* TODO: new place suggestions
       <form>
@@ -39,6 +32,8 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       </form> */
       }
       <form action="/stats" method="post" class="suggestion_form">
+        <MakeYourVote week={week}/>
+
         <input type="reset" />
         <input type="submit" />
         <div class="entries">
