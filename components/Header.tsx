@@ -7,7 +7,7 @@ interface Props {
 export default function Header({ user_info }: Props) {
   return (
     <header>
-      <nav>
+      <nav class="left-nav">
         <li>
           <a href="/">Home</a>
         </li>
@@ -24,9 +24,9 @@ export default function Header({ user_info }: Props) {
           src={user_info.picture}
           alt={`Profile picture of ${user_info.name}`}
         />
-        <div>Hello {user_info.name}</div>
+        <div>Hello {user_info.given_name}</div>
       </div>
-      <nav>
+      <nav class="right-nav">
         <li>
           <a href="/oauth/signout">Sign Out</a>
         </li>

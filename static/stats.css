@@ -17,42 +17,44 @@
 }
 
 .chart {
+  display: grid;
+  grid-template-columns:
+    auto var(--negative-fr, 1fr) 1pt var(--positive-fr, 1fr);
+
   li {
-    display: flex;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: subgrid;
+
+    grid-column: 1 / -1;
   }
 
   .restaurant_name {
-    margin: auto;
-    margin-inline-end: 1em;
+    text-align: right;
+    margin-right: 1em;
   }
 
-  .bars {
-    width: 50em;
+  .negative, .positive {
+    /* width: 50em; */
     height: 1em;
 
-    position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-    span {
-      position: absolute;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      overflow: hidden;
+  .positive {
+    background-color: var(--positive-color);
+    width: calc(100% * var(--count) / var(--max));
+  }
 
-      width: calc(50% * var(--count) / var(--total-votes));
-    }
+  .negative {
+    margin-left: auto;
+    background-color: var(--negative-color);
+    width: calc(100% * var(--count) / var(--min));
+  }
 
-    .positive {
-      left: 50%;
-
-      background-color: green;
-    }
-
-    .negative {
-      right: 50%;
-
-      background-color: red;
-    }
+  .separator {
+    background-color: black;
   }
 }

@@ -1,6 +1,7 @@
 import { defineRoute } from "$fresh/server.ts";
 import { Authentication } from "$lib/oauth.ts";
 import Header from "$components/Header.tsx";
+import { Head } from "$fresh/runtime.ts";
 
 export default defineRoute<Authentication | undefined>((req, ctx) => {
   const request_url = new URL(req.url);
@@ -18,17 +19,38 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
 
   // TODO: separate components for the logged in and not logged in page
 
+  const random_button = Math.round(Math.random() * 6 + 1);
+
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="index.css" />
+      </Head>
       {ctx.state !== undefined && <Header user_info={ctx.state.user_info} />}
-      <h1>Welcome</h1>
-      <nav>
+      <div class="welcome_container">
+        <div class="welcome">
+          <span class="shape shape-1">W</span>
+          <span class="shape shape-2">E</span>
+          <span class="shape shape-3">L</span>
+          <span class="shape shape-4">C</span>
+          <span class="shape shape-5">O</span>
+          <span class="shape shape-6">M</span>
+          <span class="shape shape-7">E</span>
+        </div>
+        <div class="subtitle">
+          <div>to the Brussel Sprouts</div>
+          <div>weekly dinner</div>
+          <div>voting system</div>
+        </div>
         {signed_in || (
-          <li>
-            <a href={sign_in_route.toString()}>Sign In</a>
-          </li>
+          <a
+            href={sign_in_route.toString()}
+            class={`sign-in-button shape shape-${random_button}`}
+          >
+            Sign In
+          </a>
         )}
-      </nav>
+      </div>
     </>
   );
 });

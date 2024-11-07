@@ -57,19 +57,17 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
     const year = ctx.params["year"];
     const week = ctx.params["week"];
 
-    return Week.from_week_nr(
-      parseInt(year),
-      parseInt(week),
-    );
+    return Week.from_week_nr(parseInt(year), parseInt(week));
   })();
 
-  const { summary, votes, voted_users } = await calculate_stats(week);
+  const { summary, votes, voted_users, min, max } = await calculate_stats(week);
 
-  const sorted = summary.entries().toArray().sort(
-    ([_a, a], [_b, b]) => {
+  const sorted = summary
+    .entries()
+    .toArray()
+    .sort(([_a, a], [_b, b]) => {
       return score(b) - score(a);
-    },
-  );
+    });
 
   const formatter = new Intl.DateTimeFormat("en-GB", { dateStyle: "full" });
 
@@ -96,7 +94,9 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
           {formatter.format(previous.date)}
         </a>
         <span class="current">
-          <span class="week">Week {week.number}, {week.year}</span>
+          <span class="week">
+            Week {week.number}, {week.year}
+          </span>
           <span class="sub">{formatter.format(week.date)}</span>
         </span>
         <a
@@ -110,26 +110,27 @@ export default defineRoute<Authentication>(async (_req, ctx) => {
       </div>
 
       <p>{votes} total vote(s) are in!</p>
-      <ul>{voted_users.map((x) => <li>{x.name}</li>)}</ul>
-      <ol class="chart">
+      <ul>
+        {voted_users.map((x) => <li>{x.name}</li>)}
+      </ul>
+      <ol
+        class="chart"
+        style={{
+          "--negative-fr": min + "fr",
+          "--positive-fr": max + "fr",
+          "--min": min,
+          "--max": max,
+        }}
+      >
         {sorted.map(([key, { negative, positive }]) => (
           <li>
-            <span class="restaurant_name">
-              {getRestaurantName(key)}
+            <span class="restaurant_name">{getRestaurantName(key)}</span>
+            <span class="negative" style={{ "--count": negative }}>
+              {negative}
             </span>
-            <span class="bars" style={{ "--total-votes": votes }}>
-              <span
-                class="negative"
-                style={{ "--count": negative }}
-              >
-                {negative}
-              </span>
-              <span
-                class="positive"
-                style={{ "--count": positive }}
-              >
-                {positive}
-              </span>
+            <span class="separator"></span>
+            <span class="positive" style={{ "--count": positive }}>
+              {positive}
             </span>
           </li>
         ))}
