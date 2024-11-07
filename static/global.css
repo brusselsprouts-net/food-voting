@@ -5,6 +5,9 @@
 body {
   max-width: 150ch;
   margin: auto;
+  background-color: #F5AB00 !important;
+  color: #073B4C;
+  font-family: "DynaPuff";
 }
 
 header {
@@ -39,5 +42,5 @@ header {
     height: 4em;
   }
 
-  border-bottom: 1px solid grey;
+  /* border-bottom: 4px solid #EF476F; */
 }
