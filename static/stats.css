@@ -18,7 +18,7 @@
 
 .chart {
   display: grid;
-  grid-template-columns: 1fr 25em 25em;
+  grid-template-columns: auto var(--negative-fr, 1fr) 1pt var(--positive-fr, 1fr);
 
   li {
     display: grid;
@@ -29,8 +29,8 @@
   }
 
   .restaurant_name {
-    /* margin: auto; */
-    /* margin-inline-end: 1em; */
+    text-align: right;
+    margin-right: 1em;
   }
 
   .negative, .positive {
@@ -40,16 +40,20 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-
-    width: calc(100% * var(--count) / var(--total-votes));
   }
 
   .positive {
     background-color: var(--positive-color);
+    width: calc(100% * var(--count) / var(--max));
   }
 
   .negative {
     margin-left: auto;
     background-color: var(--negative-color);
+    width: calc(100% * var(--count) / var(--min));
+  }
+
+  .separator {
+    background-color: black;
   }
 }

@@ -12,6 +12,9 @@ export default function App({ Component }: PageProps) {
       </head>
       <body>
         <Component />
+        <footer>
+          &copy; 2024 ZBoink Inc.
+        </footer>
       </body>
     </html>
   );

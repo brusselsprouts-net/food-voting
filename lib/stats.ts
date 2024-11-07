@@ -15,6 +15,8 @@ export async function calculate_stats(week: Week) {
 
   const voted_users = [];
   let vote_count = 0;
+  let min = 0
+  let max = 0;
   for await (const { user_id, vote } of votes) {
     vote_count += 1;
 
@@ -33,11 +35,13 @@ export async function calculate_stats(week: Week) {
         negative += 1;
       }
 
+      min = Math.max(negative, min);
+      max = Math.max(positive, max);
       summary.set(restaurant, { negative, positive });
     }
   }
 
-  return { summary, votes: vote_count, voted_users };
+  return { summary, votes: vote_count, voted_users, min, max };
 }
 
 export function score(

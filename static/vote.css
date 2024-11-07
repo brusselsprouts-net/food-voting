@@ -4,10 +4,11 @@
 }
 
 .suggestion_form {
-  background-color: rgb(255, 255, 255);
+  background-color: hsl(0, 0%, 100%);
   max-width: fit-content;
   margin: auto;
   margin-top: 3em;
+  margin-bottom: 3em;
   padding: 2em;
   box-shadow:
     rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
@@ -47,10 +48,6 @@
   }
 
   .positive {
-    background-color: hsl(from var(--positive-color) h s l / 50%);
-  }
-
-  .positive:checked {
     background-color: var(--positive-color);
   }
 
