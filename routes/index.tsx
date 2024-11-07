@@ -21,10 +21,10 @@ export default defineRoute<Authentication | undefined>((req, ctx) => {
   return (
     <>
       {ctx.state !== undefined && <Header user_info={ctx.state.user_info} />}
-      <span class="welcome_container">
+      <div class="welcome_container">
       <h1><span>W</span><span>E</span><span>L</span><span>C</span><span>O</span><span>M</span><span>E</span></h1>
       <h1>to the Brussel Sprouts <br>weekly dinner <br>voting system</br></br></h1>
-      </span>
+      </div>
       <nav>
         {signed_in || (
           <li>
