@@ -22,9 +22,9 @@ export default function Header({ user_info }: Props) {
         <img
           referrerpolicy="no-referrer"
           src={user_info.picture}
-          alt={`Profile picture of ${user_info.name}`}
+          alt={`Profile picture of ${user_info.name ?? user_info.sub}`}
         />
-        <div>Hello {user_info.given_name}</div>
+        <div>Hello {user_info.given_name ?? user_info.sub}</div>
       </div>
       <nav class="right-nav">
         <li>
