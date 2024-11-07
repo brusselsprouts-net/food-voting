@@ -22,13 +22,13 @@ export type UserInfoType = z.infer<typeof UserInfo>;
 export const UserInfo = z.object({
   /** User ID */
   sub: z.string(),
-  name: z.string(),
-  given_name: z.string(),
-  family_name: z.string(),
+  name: z.string().optional(),
+  given_name: z.string().optional(),
+  family_name: z.string().optional(),
 
   /** URL to the user's profile photo */
-  picture: z.string().url(),
+  picture: z.string().url().optional(),
 
   email: z.string().email(),
-  email_verified: z.boolean(),
+  email_verified: z.boolean().default(false),
 });
