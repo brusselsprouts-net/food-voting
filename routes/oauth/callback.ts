@@ -3,6 +3,7 @@ import { handleCallback } from "deno_kv_oauth/mod.ts";
 import { createOauthConfig, UserInfo } from "$lib/oauth.ts";
 import { create_user_session } from "$lib/kv.ts";
 import { z } from "zod";
+import { OAuth2ResponseError } from "https://deno.land/x/oauth2_client@v1.0.2/mod.ts";
 
 const OpenIdConfiguration = z.object({
   userinfo_endpoint: z.string().url(),
@@ -10,10 +11,33 @@ const OpenIdConfiguration = z.object({
 
 export const handler: Handlers = {
   async GET(req) {
-    const { response, sessionId: session_id, tokens } = await handleCallback(
+    const callback_response = await handleCallback(
       req,
       createOauthConfig(),
+    ).then((success) => ({ ok: true as const, data: success })).catch(
+      (error) => {
+        // TODO: user feedback of some sort
+        if (error instanceof OAuth2ResponseError) {
+          console.log("oauth response error", error);
+        } else {
+          console.warn(error);
+        }
+
+        return {
+          ok: false as const,
+          error: new Response(null, {
+            headers: { location: "/" },
+            status: 307,
+          }),
+        };
+      },
     );
+
+    if (!callback_response.ok) {
+      return callback_response.error;
+    }
+
+    const { response, sessionId: session_id, tokens } = callback_response.data;
 
     const openid_response = await fetch(
       "https://accounts.google.com/.well-known/openid-configuration",
