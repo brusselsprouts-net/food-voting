@@ -4,6 +4,8 @@ import { createOauthConfig } from "$lib/oauth.ts";
 
 export const handler: Handlers = {
   async GET(req) {
-    return await signIn(req, createOauthConfig());
+    return await signIn(req, createOauthConfig(), {
+      urlParams: { prompt: "select_account" },
+    });
   },
 };

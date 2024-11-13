@@ -18,10 +18,13 @@ export interface Authentication {
   user_info: UserInfoType;
 }
 
+export type UserIdType = z.infer<typeof UserId>;
+export const UserId = z.string();
+
 export type UserInfoType = z.infer<typeof UserInfo>;
 export const UserInfo = z.object({
   /** User ID */
-  sub: z.string(),
+  sub: UserId,
   name: z.string().optional(),
   given_name: z.string().optional(),
   family_name: z.string().optional(),

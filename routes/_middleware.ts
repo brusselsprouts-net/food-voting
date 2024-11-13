@@ -1,7 +1,7 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getSessionId } from "deno_kv_oauth/mod.ts";
 import { Authentication } from "$lib/oauth.ts";
-import { user_session } from "$lib/kv.ts";
+import { get_user_session } from "$lib/kv.ts";
 
 export async function handler(
   req: Request,
@@ -18,7 +18,7 @@ export async function handler(
     return await ctx.next();
   }
 
-  const user_info = await user_session(session_id);
+  const user_info = await get_user_session(session_id);
 
   if (user_info === undefined) {
     ctx.state = undefined;

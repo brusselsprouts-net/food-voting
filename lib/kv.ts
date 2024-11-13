@@ -1,6 +1,7 @@
 import { RestaurantsVote, RestaurantsVoteType } from "$lib/restaurants.ts";
-import { UserInfo, UserInfoType } from "$lib/oauth.ts";
+import { UserId, UserIdType, UserInfo, UserInfoType } from "$lib/oauth.ts";
 import { Week } from "$lib/week.ts";
+import { z } from "zod";
 
 export async function set_vote(
   week: Week,
@@ -76,6 +77,32 @@ export async function* all_votes(week: Week, kv?: Deno.Kv) {
   }
 }
 
+export async function get_user(user_id: UserIdType, kv?: Deno.Kv) {
+  if (kv === undefined) {
+    kv = await Deno.openKv();
+  }
+
+  const entry = await kv.get(["user-info", user_id]);
+
+  if (entry.value === null) {
+    return undefined;
+  }
+
+  const parsed = UserInfo.safeParse(entry.value);
+
+  if (!parsed.success) {
+    console.warn(
+      "Encountered bad data from KV, pruning",
+      entry.key,
+      parsed.error.format(),
+    );
+    await kv.delete(entry.key);
+    return undefined;
+  }
+
+  return parsed.data;
+}
+
 export async function* all_users(kv?: Deno.Kv) {
   if (kv === undefined) {
     kv = await Deno.openKv();
@@ -106,7 +133,7 @@ export async function* all_users(kv?: Deno.Kv) {
   }
 }
 
-export async function user_session(session_id: string, kv?: Deno.Kv) {
+export async function get_user_session(session_id: string, kv?: Deno.Kv) {
   if (kv === undefined) {
     kv = await Deno.openKv();
   }
@@ -117,7 +144,7 @@ export async function user_session(session_id: string, kv?: Deno.Kv) {
     return undefined;
   }
 
-  const parsed = UserInfo.safeParse(entry.value);
+  const parsed = UserId.safeParse(entry.value);
 
   if (!parsed.success) {
     console.warn(
@@ -129,7 +156,7 @@ export async function user_session(session_id: string, kv?: Deno.Kv) {
     return undefined;
   }
 
-  return parsed.data;
+  return get_user(parsed.data, kv);
 }
 
 export async function create_user_session(
@@ -141,12 +168,81 @@ export async function create_user_session(
     kv = await Deno.openKv();
   }
 
-  await kv.set(["user-session", session_id], user_info, {
+  const transaction = kv.atomic();
+
+  transaction.set(["user-session", session_id], user_info.sub, {
     expireIn: 7776000 * 1000, // 90 days
   });
-  await kv.set(["user-info", user_info.sub], user_info, {
-    expireIn: 7776000 * 1000, // 90 days
+  // Do not expire user info
+  transaction.set(["user-info", user_info.sub], user_info);
+
+  await transaction.commit();
+}
+
+const UserSessionKey = z.tuple([z.literal("user-session"), z.string().uuid()]);
+
+export async function* all_user_sessions(kv?: Deno.Kv) {
+  if (kv === undefined) {
+    kv = await Deno.openKv();
+  }
+
+  const list = kv.list({
+    prefix: ["user-session"],
   });
+
+  while (true) {
+    const next = await list.next();
+    if (next.done === true) return undefined;
+    const entry = next.value;
+
+    const next_parsed = UserId.safeParse(entry.value);
+
+    if (!next_parsed.success) {
+      console.warn(
+        "Encountered bad data from KV, pruning",
+        entry.key,
+        next_parsed.error.format(),
+      );
+      await kv.delete(entry.key);
+      continue;
+    }
+
+    yield {
+      id: UserSessionKey.parse(entry.key)[1],
+      user: next_parsed.data,
+    };
+  }
+}
+
+const SiteSessionKey = z.tuple([z.literal("site_sessions"), z.string().uuid()]);
+
+export async function* all_site_sessions(kv?: Deno.Kv) {
+  if (kv === undefined) {
+    kv = await Deno.openKv();
+  }
+
+  const list = kv.list({
+    prefix: ["site_sessions"],
+  });
+
+  while (true) {
+    const next = await list.next();
+    if (next.done === true) return undefined;
+    const entry = next.value;
+
+    const next_parsed = SiteSessionKey.safeParse(entry.key);
+
+    if (!next_parsed.success) {
+      console.warn(
+        "Encountered bad keys for site_sessions",
+        entry.key,
+        next_parsed.error.format(),
+      );
+      continue;
+    }
+
+    yield next_parsed.data[1];
+  }
 }
 
 export async function weeks_exist(
